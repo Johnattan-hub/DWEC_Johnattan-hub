@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leer atributo data-widget-name</title>
+</head>
+<body>
+  <h1>Atributo widget</h1>
+  <div id="widget" data-widget-name="MiWidget">Elemento de ejemplo</div>
+  <p id="resultado"></p>
+
+  <script>
+    const widget = document.querySelector("#widget");
+    const nombreWidget = widget.getAttribute("data-widget-name");
+    document.querySelector("#resultado").textContent = "Valor del atributo: " + nombreWidget;
+    console.log(nombreWidget);
+  </script>
+</body>
+</html>

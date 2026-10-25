@@ -1,0 +1,87 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conversor de código Morse</title>
+</head>
+<body>
+  <h1>Conversor de código Morse</h1>
+
+  <button onclick="convertir()">Introducir texto o código Morse</button>
+
+  <p id="resultado"></p>
+
+  <script>
+    const morse = {
+      A: ".-", B: "-...", C: "-.-.", D: "-..", E: ".",
+      F: "..-.", G: "--.", H: "....", I: "..", J: ".---",
+      K: "-.-", L: ".-..", M: "--", N: "-.", O: "---",
+      P: ".--.", Q: "--.-", R: ".-.", S: "...", T: "-",
+      U: "..-", V: "...-", W: ".--", X: "-..-", Y: "-.--",
+      Z: "--..",
+      0: "-----", 1: ".----", 2: "..---", 3: "...--",
+      4: "....-", 5: ".....", 6: "-....", 7: "--...",
+      8: "---..", 9: "----."
+    };
+
+    function pareceMorse(texto) {
+      texto = texto.replace(/—/g, "-").trim();
+
+      if (!texto || !/^[.\-\s]+$/.test(texto)) {
+        return false;
+      }
+
+      const codigos = texto.split(/\s+/);
+
+      return codigos.every(codigo =>
+        Object.values(morse).includes(codigo)
+      );
+    }
+
+    function textoAMorse(texto) {
+      return texto.toUpperCase().split(" ").map(palabra => {
+        return palabra.split("").map(letra => {
+          return morse[letra] || "";
+        }).filter(codigo => codigo !== "").join(" ");
+      }).join("  ");
+    }
+
+    function morseATexto(texto) {
+      texto = texto.replace(/—/g, "-").trim();
+
+      const inverso = {};
+
+      for (let letra in morse) {
+        inverso[morse[letra]] = letra;
+      }
+
+      return texto.split(/\s{2,}/).map(palabra => {
+        return palabra.split(/\s+/).map(codigo => {
+          return inverso[codigo] || "";
+        }).join("");
+      }).join(" ");
+    }
+
+    function convertir() {
+      const texto = window.prompt("Introduce un texto o código Morse:");
+
+      if (texto === null || texto.trim() === "") {
+        return;
+      }
+
+      let resultado;
+
+      if (pareceMorse(texto)) {
+        resultado = morseATexto(texto);
+      } else {
+        resultado = textoAMorse(texto);
+      }
+
+      document.getElementById("resultado").textContent =
+        "Resultado: " + resultado;
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Números primos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+
+    table {
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    td, th {
+      border: 1px solid #777;
+      padding: 10px 14px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>Números primos</h1>
+  <label for="numero">Introduce un número:</label>
+  <input id="numero" type="number" min="1" step="1">
+  <button id="mostrar">Mostrar números</button>
+  <div id="resultado"></div>
+
+  <script>
+    const entrada = document.querySelector("#numero");
+    const boton = document.querySelector("#mostrar");
+    const resultado = document.querySelector("#resultado");
+
+    function esPrimo(numero) {
+      if (numero < 2) return false;
+
+      for (let i = 2; i <= Math.sqrt(numero); i++) {
+        if (numero % i === 0) {
+          return false;
+        }
+      }
+
+      return true;
+    }
+
+    boton.addEventListener("click", () => {
+      const numero = Number(entrada.value);
+      resultado.innerHTML = "";
+
+      if (entrada.value.trim() === "" || !Number.isInteger(numero) || numero < 1) {
+        resultado.textContent = "Introduce un número entero mayor que cero.";
+        return;
+      }
+
+      const tabla = document.createElement("table");
+      const fila = document.createElement("tr");
+
+      for (let i = 2; i <= numero; i++) {
+        if (esPrimo(i)) {
+          const celda = document.createElement("td");
+          celda.textContent = i;
+          fila.appendChild(celda);
+        }
+      }
+
+      const encabezado = document.createElement("caption");
+      encabezado.textContent = "Números primos hasta " + numero;
+      tabla.appendChild(encabezado);
+      tabla.appendChild(fila);
+      resultado.appendChild(tabla);
+    });
+  </script>
+</body>
+</html>
